@@ -1,0 +1,28 @@
+{
+  "name": "internFinalProject",
+  "version": "1.0.0",
+  "homepage": "https://github.com/benstoltz/esriInternFinalProject",
+  "authors": [
+    "Ben Stoltz <stoltz.ben@me.com>"
+  ],
+  "main": "src/index.html",
+  "keywords": [
+    "Esri",
+    "Dojo",
+    "Bootstrap",
+    "Disaster"
+  ],
+  "license": "Apache",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-map-js": "~0.0.1",
+    "dojo-bootstrap": "~3.0.2"
+  }
+}
