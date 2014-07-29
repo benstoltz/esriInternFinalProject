@@ -64,7 +64,7 @@ define([
         });
         this.map.addLayer(hospitalLayer);
         incidentsLayer = new FeatureLayer('http://csc-training7l.esri.com:6080/arcgis/rest/services/PointBarriers2_managed/FeatureServer/0', {
-            id: 'Incidents',
+            id: 'incidentsLayer',
             outFields: ['*']
         });
         this.map.addLayer(incidentsLayer);
