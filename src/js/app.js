@@ -22,6 +22,7 @@ function(
   }, 'mapNode');
   map.startup();
   map.loadServices();
+  map.initEditing();
 
   // start nav widget
   var navBar = new NavBar({

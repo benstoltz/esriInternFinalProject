@@ -16,8 +16,13 @@ define([
 
         templateString: template,
 
-        _initEditing: function() {
-            var map = this.map;
+        postCreate: function() {
+            this.inherited(arguments);
+            this._initEditing();
+        },
+
+        _initEditing: function(newMap) {
+            this.map = newMap;
             var incidentLayer = this.map.getLayer('incidentsLayer');
 
             var templatePicker = new esri.dijit.editing.TemplatePicker({
@@ -25,10 +30,35 @@ define([
                 rows: 'auto',
                 groupingEnabled: true,
                 columns: 2
-            }, 'editorNode');
+            }, this.editorNode);
             templatePicker.startup();
 
-            var layerInfos = [{}]
+            var layerInfos = [{
+                'featureLayer': featureLayer,
+                'showAttachments': false,
+                'showDeleteButton': false,
+                'fieldInfos': [
+                    {'fieldName': 'event_type', 'label': 'Incident'},
+                    {'fieldName': 'services_requested', 'label': 'Emergency Services'},
+                    {'fieldName': 'event_description', 'label': 'Incident Description', 'stringFieldOption': esri.dijit.AttributeInspector.STRING_FIELD_OPTION_TEXTAREA},
+                    {'fieldName': 'number_injured', 'label': 'Number of Injured'},
+                    {'fieldName': 'reporter_contact', 'label': 'Contact Number'},
+                    {'fieldName': 'severity', 'label': 'Severity of Incident'}
+                ]
+            }];
+
+            var settings = {
+                map: map,
+                templatePicker: templatePicker,
+                layerInfos: layerInfos
+            };
+
+            var params = {
+                settings: settings
+            };
+
+            var editorWidget = new esri.dijit.editing.Editor(params);
+            editorWidget.startup();
 
 
 

@@ -34,3 +34,15 @@ table {
   top: 65px;
   right: 60px;
 }
+
+.templatePicker {
+    border: none !important;
+    display: none;
+
+}
+
+#leftPane {
+    overflow: hidden;
+    border: none;
+    color: #5C832F;
+}

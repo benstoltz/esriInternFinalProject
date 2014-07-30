@@ -13,14 +13,19 @@ define([
   'esri/layers/FeatureLayer',
   'esri/renderers/SimpleRenderer',
   'esri/layers/ArcGISDynamicMapServiceLayer',
+  'esri/dijit/editing/Editor-all',
+
+  'dijit/layout/BorderContainer',
+  'dijit/layout/ContentPane',
 
   'bootstrap-map-js/bootstrapmap',
 
   'dojo/text!./templates/Map.html'
 ], function(declare, array,
   _WidgetBase, _TemplatedMixin,
-  Map, Scalebar, WebTiledLayer, LocateButton, Geocoder, FeatureLayer, SimpleRenderer, ArcGISDynamicMapServiceLayer,
+  Map, Scalebar, WebTiledLayer, LocateButton, Geocoder, FeatureLayer, SimpleRenderer, ArcGISDynamicMapServiceLayer, Editor,
   BootstrapMap,
+
   template) {
   return declare([_WidgetBase, _TemplatedMixin], {
     templateString: template,
@@ -46,6 +51,53 @@ define([
         'class': 'geocoder'
       }, this.searchNode);
       this.geocoder.startup();
+    },
+
+    initEditing: function() {
+
+        var incidentLayer = this.map.getLayer('incidentsLayer');
+
+        this.templatePicker = new esri.dijit.editing.TemplatePicker({
+            featureLayers: [incidentLayer],
+            rows: 'auto',
+            groupingEnabled: true,
+            columns: 2
+        }, this.editorNode);
+        this.templatePicker.startup();
+
+        this.layerInfos = [{
+            'featureLayer': [incidentLayer],
+            'showAttachments': false,
+            'showDeleteButton': false,
+            'fieldInfos': [
+                {'fieldName': 'event_type', 'label': 'Incident'},
+                {'fieldName': 'services_requested', 'label': 'Emergency Services'},
+                {'fieldName': 'event_description', 'label': 'Incident Description', 'stringFieldOption': esri.dijit.AttributeInspector.STRING_FIELD_OPTION_TEXTAREA},
+                {'fieldName': 'number_injured', 'label': 'Number of Injured'},
+                {'fieldName': 'reporter_contact', 'label': 'Contact Number'},
+                {'fieldName': 'severity', 'label': 'Severity of Incident'}
+            ]
+        }];
+
+        this.settings = {
+            map: this.map,
+            templatePicker: this.templatePicker,
+            layerInfos: this.layerInfos
+        };
+
+        this.params = {
+            settings: this.settings
+        };
+
+        this.editorWidget = new esri.dijit.editing.Editor(this.params);
+        this.editorWidget.startup();
+
+        this.map.infoWindow.resize(295,245);
+
+
+
+
+
     },
 
     loadServices: function(){
