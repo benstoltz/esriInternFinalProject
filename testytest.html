@@ -44,6 +44,7 @@
       //require selection dijit
       dojo.require("esri.map");
       dojo.require("esri.dijit.editing.Editor-all");
+      dojo.require("esri.dijit.Directions")
       dojo.require("dijit.layout.ContentPane");
       dojo.require("dijit.layout.BorderContainer");
       dojo.require("dijit.form.ValidationTextBox");
@@ -60,15 +61,16 @@
         esri.config.defaults.geometryService = new esri.tasks.GeometryService("http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
         
         map = new esri.Map("map", { 
-          basemap: "topo",
-          center: [-117.282, 34.289],
-          zoom: 13,
+          basemap: "streets",
+          center: [-80.8395259, 35.2031535],
+          zoom: 11,
           slider: false
         });
+
         
         dojo.connect(map, "onLayersAddResult", initEditor);
         //Add the editable feature layer to the map
-        var pointsOfInterest = new esri.layers.FeatureLayer("http://sampleserver5.arcgisonline.com/ArcGIS/rest/services/Notes/FeatureServer/0",{
+        var pointsOfInterest = new esri.layers.FeatureLayer("http://csc-training7l.esri.com:6080/arcgis/rest/services/PointBarriers2_managed/FeatureServer/0",{
           mode: esri.layers.FeatureLayer.MODE_ONDEMAND, 
           outFields: ['*']
         });
@@ -103,11 +105,12 @@
           'showAttachments':false,
           'showDeleteButton':false,
           'fieldInfos':[
-            {'fieldName':'name','label':'Name'},
-            {'fieldName':'email','label':'Email'},
-            {'fieldName':'phone','label':'Phone','customField':myDijit},
-            {'fieldName':'note','label':'Details', 'stringFieldOption':esri.dijit.AttributeInspector.STRING_FIELD_OPTION_TEXTAREA},
-            {'fieldName':'notedate','label':'Date'}
+              {'fieldName': 'event_type', 'label': 'Incident'},
+              {'fieldName': 'services_requested', 'label': 'Emergency Services'},
+              {'fieldName': 'event_description', 'label': 'Incident Description', 'stringFieldOption': esri.dijit.AttributeInspector.STRING_FIELD_OPTION_TEXTAREA},
+              {'fieldName': 'number_injured', 'label': 'Number of Injured'},
+              {'fieldName': 'reporter_contact', 'label': 'Contact Number', 'customField':myDijit},
+              {'fieldName': 'severity', 'label': 'Severity of Incident'}
           ]
         }];   
         
